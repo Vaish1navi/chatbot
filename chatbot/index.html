@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wine and Cheese Pairing Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Background Animation */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes gentleWave {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Impact Visualization */
+        .impact-bar {
+            transition: width 1.5s ease-in-out;
+        }
+        
+        /* Particle Background */
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1604949220920-c5e7e9d8cb95?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'); /* Wine and cheese background */
+            background-size: cover;
+            background-position: center;
+            animation: gentleWave 30s ease-in-out infinite;
+            opacity: 0.7;
+        }
+        
+        .twinkle-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><circle cx="50" cy="50" r="1.5" fill="white" opacity="0.8"/><circle cx="200" cy="100" r="1" fill="white" opacity="0.6"/><circle cx="300" cy="200" r="1.5" fill="white" opacity="0.7"/><circle cx="450" cy="150" r="1.2" fill="white" opacity="0.9"/><circle cx="600" cy="300" r="1.5" fill="white" opacity="0.5"/><circle cx="750" cy="400" r="1" fill="white" opacity="0.8"/><circle cx="100" cy="500" r="1.5" fill="white" opacity="0.6"/><circle cx="250" cy="350" r="1.2" fill="white" opacity="0.7"/></svg>') repeat;
+            animation: twinkle 6s infinite;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
+        /* Loading Animation */
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22d3ee;
+            margin: 0 2px;
+        }
+        
+        .typing-indicator span:nth-child(1) {
+            animation: bounce 1s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation: bounce 1s infinite 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation: bounce 1s infinite 0.4s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Button Animations */
+        .btn-float {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-float:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-float:active {
+            transform: translateY(-1px);
+        }
+        
+        .message-animate {
+            animation: slideIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen overflow-hidden p-4 bg-gray-900">
+    <!-- Enhanced Background with Particles -->
+    <div class="background-container">
+        <div class="background-image"></div>
+        <div class="twinkle-overlay"></div>
+    </div>
+    
+    <!-- Main Dashboard Container -->
+    <div class="w-full max-w-5xl h-[90vh] flex flex-col gap-4">
+        
+        
+        <!-- Chat container with scroll animation -->
+        <div class="flex-1 bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 flex flex-col overflow-hidden relative transform transition-all duration-300 hover:shadow-lg">
+            <!-- Header with float animation -->
+            <div class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white p-4 text-center text-xl font-bold uppercase tracking-wider shadow-md flex items-center justify-center gap-3 hover:from-blue-500 hover:to-cyan-400 transition-all duration-300">
+                <img src="https://img.icons8.com/color/48/000000/wine-glass.png" alt="Wine Icon" class="w-10 h-10 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-transform">
+                <span class="hover:text-cyan-100 transition-colors">Wine & Cheese Pairing Guide</span>
+            </div>
+            
+            <!-- Chat Box with scroll effects -->
+            <div id="chat-box" class="flex-1 overflow-y-auto p-4 bg-white/5 scroll-smooth">
+                <div class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-center p-3 text-base rounded-lg shadow-sm max-w-[85%] mx-auto mb-3 message-animate">
+                    Welcome! I'm your Wine & Cheese Pairing Guide. Ask me about:
+                    <ul class="list-disc list-inside text-left text-sm mt-1">
+                        <li>Wine recommendations for cheeses</li>
+                        <li>Cheese suggestions for wines</li>
+                        <li>Flavor profiles and pairing tips</li>
+                        <li>Best pairings for events</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Input Area with animated buttons -->
+            <div class="p-3 bg-gradient-to-t from-gray-900/80 to-gray-900/50 border-t border-white/10">
+                <div class="flex items-center gap-2">
+                    <input 
+                        id="user-input" 
+                        type="text" 
+                        placeholder="Ask about wine and cheese pairings..." 
+                        class="flex-1 bg-gray-800/70 text-white placeholder-gray-400 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-gray-700 transition-all hover:border-cyan-400 focus:shadow-lg"
+                        autocomplete="off"
+                    >
+                    <button 
+                        onclick="sendMessage()" 
+                        class="btn-float bg-gradient-to-r from-green-500 to-green-400 text-white p-2 rounded-full hover:from-green-600 hover:to-green-500 active:scale-95 transition-all shadow-sm hover:shadow-lg"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Animated menu button -->
+                    <div class="relative">
+                        <button 
+                            id="menu-btn" 
+                            class="btn-float bg-gray-800/70 text-gray-300 p-2 rounded-full hover:bg-gray-700/70 active:scale-95 transition-all hover:text-white"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Dropdown menu with animations -->
+                        <div id="menu-dropdown" class="hidden absolute bottom-12 right-0 w-40 bg-gray-800 rounded-md shadow-lg z-10 border border-gray-700 overflow-hidden">
+                            <button 
+                                id="voice-btn" 
+                                class="w-full px-3 py-2 text-left text-sm text-gray-300 hover:bg-gray-700 flex items-center gap-2 rounded-t-md transition-all hover:pl-4 hover:text-cyan-300"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                                </svg>
+                                Voice Input
+                            </button>
+                            <button 
+                                id="theme-btn" 
+                                class="w-full px-3 py-2 text-left text-sm text-gray-300 hover:bg-gray-700 flex items-center gap-2 transition-all hover:pl-4 hover:text-amber-300"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                                </svg>
+                                Toggle Theme
+                            </button>
+                            <button 
+                                id="delete-btn" 
+                                class="w-full px-3 py-2 text-left text-sm text-gray-300 hover:bg-gray-700 flex items-center gap-2 rounded-b-md transition-all hover:pl-4 hover:text-red-300"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                Clear Chat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles for background
+        function createParticles() {
+            const container = document.querySelector('.background-container');
+            const particleCount = window.innerWidth < 768 ? 30 : 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                const opacity = Math.random() * 0.5 + 0.1;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                particle.style.opacity = opacity;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Initialize particles when DOM loads
+        document.addEventListener('DOMContentLoaded', createParticles);
+        
+        // Enter key listener for sending messages
+        document.getElementById("user-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Toggle menu dropdown with animation
+        document.getElementById('menu-btn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('menu-dropdown');
+            dropdown.classList.toggle('hidden');
+            
+            if (!dropdown.classList.contains('hidden')) {
+                dropdown.style.animation = 'slideIn 0.3s ease-out forwards';
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            document.getElementById('menu-dropdown').classList.add('hidden');
+        });
+
+        // Check if question is wine and cheese related
+        async function isWineCheeseQuestion(question) {
+            const wineCheeseTerms = [
+                'wine', 'cheese', 'pair', 'pairing', 'taste', 'flavor', 
+                'red', 'white', 'sparkling', 'dry', 'sweet', 'creamy', 
+                'sharp', 'soft', 'hard', 'aged', 'variety', 'type', 
+                'recommend', 'suggest', 'event', 'party', 'dinner'
+            ];
+            
+            const lowerQuestion = question.toLowerCase();
+            return wineCheeseTerms.some(term => lowerQuestion.includes(term));
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const chatBox = document.getElementById('chat-box');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator max-w-[80%] mb-3 flex space-x-1 pl-2';
+            typingDiv.innerHTML = `<span></span><span></span><span></span>`;
+            chatBox.appendChild(typingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return typingDiv;
+        }
+
+        // Remove typing indicator
+        function removeTypingIndicator(indicator) {
+            if (indicator && indicator.parentNode) {
+                indicator.parentNode.removeChild(indicator);
+            }
+        }
+
+        // Add user message to chat
+        function addUserMessage(message) {
+            const chatBox = document.getElementById('chat-box');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white p-3 rounded-lg shadow-sm max-w-[80%] ml-auto mb-3 message-animate';
+            msgDiv.textContent = message;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Add bot message to chat
+        function addBotMessage(message) {
+            const chatBox = document.getElementById('chat-box');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'bg-gray-700/70 text-gray-100 p-3 rounded-lg shadow-sm max-w-[80%] mb-3 message-animate';
+            msgDiv.textContent = message;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Get AI response for wine and cheese questions
+        async function getWineCheeseResponse(question) {
+            const apiKey = 'AIzaSyCpcsx9nimukE8V4SpZWImxmR7fIYosM68'; // Replace with your actual Gemini API key
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            
+            const wineCheesePrompt = `You are an expert Wine and Cheese Pairing Guide. Provide detailed and specific recommendations about:
+            - Wine recommendations for specific cheeses (e.g., "Brie pairs well with Chardonnay")
+            - Cheese suggestions for specific wines (e.g., "Cabernet Sauvignon pairs with aged Cheddar")
+            - Flavor profiles and why they pair well (e.g., "The creamy texture of Camembert complements the crisp acidity of Sauvignon Blanc")
+            - Pairing tips for events or occasions (e.g., "For a dinner party, try Pinot Noir with Gouda")
+            
+            Use examples where possible and keep responses practical and engaging.
+            
+            Question: ${question}
+            Answer:`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: wineCheesePrompt
+                            }]
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const reply = data.candidates[0].content.parts[0].text.trim();
+                return reply;
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                return "I couldn’t retrieve pairing suggestions. Please try again later.";
+            }
+        }
+
+        // Main message handling function
+        async function sendMessage() {
+            const inputField = document.getElementById('user-input');
+            const message = inputField.value.trim();
+            
+            if (!message) return;
+
+            // Add user message to chat
+            addUserMessage(message);
+            inputField.value = '';
+            
+            // Show typing indicator
+            const typingIndicator = showTypingIndicator();
+            
+            try {
+                // Check if question is wine and cheese related
+                if (!await isWineCheeseQuestion(message)) {
+                    removeTypingIndicator(typingIndicator);
+                    addBotMessage("I specialize in wine and cheese pairings. Please ask about wine recommendations, cheese suggestions, or pairing tips!");
+                    return;
+                }
+                
+                // Get wine and cheese-specific response
+                const response = await getWineCheeseResponse(message);
+                removeTypingIndicator(typingIndicator);
+                addBotMessage(response);
+                
+                // Update impact visualization (optional for wine/cheese context)
+                animateImpactBars();
+            } catch (error) {
+                console.error("Error:", error);
+                removeTypingIndicator(typingIndicator);
+                addBotMessage("Sorry, I encountered an error processing your request.");
+            }
+        }
+
+        // Animate impact bars (optional, can be repurposed)
+        function animateImpactBars() {
+            const bars = document.querySelectorAll('.impact-bar');
+            bars.forEach(bar => {
+                const currentWidth = parseFloat(bar.style.width) || 0;
+                const newWidth = Math.min(currentWidth + (Math.random() * 5), 100);
+                bar.style.width = `${newWidth}%`;
+            });
+        }
+
+        // Initialize impact bars
+        function initImpactBars() {
+            const bars = document.querySelectorAll('.impact-bar');
+            const widths = ['85%', '70%', '90%']; // Updated for wine/cheese stats
+            bars.forEach((bar, index) => {
+                bar.style.width = widths[index] || '50%';
+            });
+        }
+
+        // Theme button functionality (unchanged)
+        let isDarkTheme = true;
+        document.getElementById('theme-btn').addEventListener('click', function() {
+            const body = document.body;
+            const backgroundImage = document.querySelector('.background-image');
+            const twinkleOverlay = document.querySelector('.twinkle-overlay');
+            
+            if (isDarkTheme) {
+                body.classList.remove('bg-gray-900');
+                body.classList.add('bg-gray-100');
+                backgroundImage.style.opacity = '0.3';
+                twinkleOverlay.style.opacity = '0.5';
+                
+                document.querySelector('.bg-white\\/10').className = 'flex-1 bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-300 flex flex-col overflow-hidden';
+                document.querySelector('.from-blue-600').className = 'bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-4 text-center text-xl font-bold uppercase tracking-wider shadow-md flex items-center justify-center gap-3';
+                document.getElementById('chat-box').className = 'flex-1 overflow-y-auto p-4 bg-white';
+                document.querySelector('.from-gray-900\\/80').className = 'p-3 bg-gray-100 border-t border-gray-300';
+                document.getElementById('user-input').className = 'flex-1 bg-white text-gray-800 placeholder-gray-500 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-gray-300 transition-all';
+                document.querySelector('.bg-gray-800\\/70').className = 'bg-gray-200 text-gray-700 p-2 rounded-full hover:bg-gray-300 active:scale-95 transition-all';
+                document.getElementById('menu-dropdown').className = 'hidden absolute bottom-12 right-0 w-40 bg-white rounded-md shadow-lg z-10 border border-gray-300';
+            } else {
+                body.classList.remove('bg-gray-100');
+                body.classList.add('bg-gray-900');
+                backgroundImage.style.opacity = '0.7';
+                twinkleOverlay.style.opacity = '0.8';
+                
+                document.querySelector('.bg-white\\/90').className = 'flex-1 bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 flex flex-col overflow-hidden';
+                document.querySelector('.from-blue-500').className = 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white p-4 text-center text-xl font-bold uppercase tracking-wider shadow-md flex items-center justify-center gap-3';
+                document.getElementById('chat-box').className = 'flex-1 overflow-y-auto p-4 bg-white/5';
+                document.querySelector('.bg-gray-100').className = 'p-3 bg-gradient-to-t from-gray-900/80 to-gray-900/50 border-t border-white/10';
+                document.getElementById('user-input').className = 'flex-1 bg-gray-800/70 text-white placeholder-gray-400 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-gray-700 transition-all';
+                document.querySelector('.bg-gray-200').className = 'bg-gray-800/70 text-gray-300 p-2 rounded-full hover:bg-gray-700/70 active:scale-95 transition-all';
+                document.getElementById('menu-dropdown').className = 'hidden absolute bottom-12 right-0 w-40 bg-gray-800 rounded-md shadow-lg z-10 border border-gray-700';
+            }
+            
+            isDarkTheme = !isDarkTheme;
+            document.getElementById('menu-dropdown').classList.add('hidden');
+        });
+
+        // Voice button functionality (unchanged)
+        document.getElementById('voice-btn').addEventListener('click', function() {
+            const inputField = document.getElementById('user-input');
+            const voiceBtn = this;
+
+            voiceBtn.classList.add('animate-pulse', 'bg-cyan-500', 'text-white');
+            inputField.placeholder = 'Listening...';
+
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onstart = function() {
+                    console.log('Voice recognition started.');
+                };
+
+                recognition.onresult = function(event) {
+                    const speechResult = event.results[0][0].transcript;
+                    inputField.value = speechResult;
+                    sendMessage();
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    let errorMessage = '';
+                    switch (event.error) {
+                        case 'no-speech':
+                            errorMessage = 'No speech detected. Please speak clearly!';
+                            break;
+                        case 'audio-capture':
+                            errorMessage = 'Microphone issue. Check your device!';
+                            break;
+                        case 'not-allowed':
+                            errorMessage = 'Microphone access denied. Allow permissions!';
+                            break;
+                        case 'network':
+                            errorMessage = 'Network error. Check your connection!';
+                            break;
+                        default:
+                            errorMessage = 'Speech recognition failed. Try again!';
+                    }
+                    inputField.value = errorMessage;
+                };
+
+                recognition.onend = function() {
+                    console.log('Voice recognition ended.');
+                    voiceBtn.classList.remove('animate-pulse', 'bg-cyan-500', 'text-white');
+                    inputField.placeholder = 'Ask about wine and cheese pairings...';
+                };
+
+                try {
+                    recognition.start();
+                } catch (error) {
+                    console.error('Error starting recognition:', error);
+                    inputField.value = 'Failed to start voice recognition. Try again!';
+                    voiceBtn.classList.remove('animate-pulse', 'bg-cyan-500', 'text-white');
+                }
+            } else {
+                inputField.value = 'Speech recognition not supported in this browser.';
+                voiceBtn.classList.remove('animate-pulse', 'bg-cyan-500', 'text-white');
+            }
+            
+            document.getElementById('menu-dropdown').classList.add('hidden');
+        });
+
+        // Delete button functionality (updated welcome message)
+        document.getElementById('delete-btn').addEventListener('click', function() {
+            const chatBox = document.getElementById('chat-box');
+            
+            chatBox.classList.add('animate-pulse');
+            
+            setTimeout(() => {
+                chatBox.innerHTML = '';
+                chatBox.classList.remove('animate-pulse');
+                
+                const welcomeMessage = document.createElement('div');
+                welcomeMessage.className = 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-center p-3 text-base rounded-lg shadow-sm max-w-[85%] mx-auto mb-3 message-animate';
+                welcomeMessage.innerHTML = `Welcome! I'm your Wine & Cheese Pairing Guide. Ask me about:
+                    <ul class="list-disc list-inside text-left text-sm mt-1">
+                        <li>Wine recommendations for cheeses</li>
+                        <li>Cheese suggestions for wines</li>
+                        <li>Flavor profiles and pairing tips</li>
+                        <li>Best pairings for events</li>
+                    </ul>`;
+                chatBox.appendChild(welcomeMessage);
+                
+                document.getElementById('menu-dropdown').classList.add('hidden');
+            }, 300);
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initImpactBars();
+        });
+    </script>
+</body>
+</html>
